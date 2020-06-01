@@ -1,0 +1,2 @@
+Hello. Nice to meet you.
+This is the Python team from Group 3 of Open Source Project.
