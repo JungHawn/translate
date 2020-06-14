@@ -9,84 +9,17 @@ from tkinter import messagebox
 from glob import glob
 
 def translate():
-    # 번역할 txt파일 내용 불러와서 읽기
-    with open('source.txt', 'r', encoding='utf8') as memo:
-        text = memo.read()
+    filelist = glob("papago.py")
 
-    # 번역할 내용을 txt파일로 읽어서 받아옴
-    encText = urllib.parse.quote(text)
-    # 한영번역
-    # data = "source=ko&target=en&text=" + encText
-    # 영한번역
-    data = "source=en&target=ko&text=" + encText
-
-    # 개발자센터에서 발급받은 값
-    client_id = "uucszwBYG7Kx3m68gu8Y"
-    client_secret = "ARQJd5IcAh"
-
-    ##번역시작코드
-    # 웹요청
-    url = "https://openapi.naver.com/v1/papago/n2mt"
-    request = urllib.request.Request(url)
-    request.add_header("X-Naver-Client-Id", client_id)
-    request.add_header("X-Naver-Client-Secret", client_secret)
-
-    # 결과 받아오는 부분
-    response = urllib.request.urlopen(request, data=data.encode("utf-8"))
-
-    # 응답이 성공적일때
-    rescode = response.getcode()
-    # 성공
-    if (rescode == 200):
-        response_body = response.read()
-        txt = response_body.decode('utf-8')
-        # 응답데이터 형 변환, 딕셔너리화
-        text_data = json.loads(txt)
-        # pprint 이용해서 출력 변경
-        pprint.pprint(text_data)
-
-        # 수정 후 메모장 파일 생성
-        with open('translate.txt', 'w', encoding='utf8') as memo:
-            memo.write(text_data['message']['result']['translatedText'])
-            messagebox.showinfo("번역", "번역 되었습니다.")
-    # 실패
-    else:
-        print("Error Code:" + rescode)
+    for file in filelist:
+        subprocess.call(['python', file])
 
 def crawling():
-    
-    with open('source.txt', 'r', encoding='utf8') as f:
-        date = f.read()
+    filelist = glob("crawling.py")
 
-    plusUrl = urllib.parse.quote_plus(date)
-
-    pageNum = 1
-    count = 1
-
-    i = 1 #1페이지로 고정
-
-    sys.stdout = open('output.txt', 'a', encoding='UTF-8')
-
-    lastPage = int(i) * 10 - 9
-    while pageNum < lastPage + 1:
-        url = f'https://search.naver.com/search.naver?date_from=&date_option=0&date_to=&dup_remove=1&nso=&post_blogurl=&post_blogurl_without=&query={plusUrl}&sm=tab_pge&srchby=all&st=sim&where=post&start={pageNum}'
-
-        html = urllib.request.urlopen(url).read()
-        soup = BeautifulSoup(html, 'html.parser')
-
-        title = soup.find_all(class_='sh_blog_title')
-
-        print(f'-----{plusUrl}의 {count}페이지 결과 입니다.-----')
-        for i in title:
-            print(i.attrs['title'])
-            print(i.attrs['href'])
-
-        print()
-
-        pageNum += 10
-        count += 1
-        messagebox.showinfo("크롤링", "크롤링 되었습니다.")
-
+    for file in filelist:
+        subprocess.call(['python', file])
+        
 def calendar():
     filelist = glob("Calendar.py")
 
