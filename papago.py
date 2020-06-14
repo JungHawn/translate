@@ -34,13 +34,15 @@ def translate():
         response_body = response.read()
         txt = response_body.decode('utf-8')
         # 응답데이터 형 변환, 딕셔너리화
-        text_data = json.loads(txt)
+        txt = json.loads(txt)
         # pprint 이용해서 출력 변경
-        pprint.pprint(text_data)
+        pprint.pprint(txt)
 
         # 수정 후 메모장 파일 생성
         with open('translate.txt', 'w', encoding='utf8') as memo:
-            memo.write(text_data['message']['result']['translatedText'])
+            memo.write(txt['message']['result']['translatedText'])
+
+        messagebox.showinfo("번역", txt['message']['result']['translatedText'])
     # 실패
     else:
         print("Error Code:" + rescode)
