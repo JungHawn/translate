@@ -41,7 +41,6 @@ def translate():
         # 수정 후 메모장 파일 생성
         with open('translate.txt', 'w', encoding='utf8') as memo:
             memo.write(text_data['message']['result']['translatedText'])
-            messagebox.showinfo("번역", "번역 되었습니다.")
     # 실패
     else:
         print("Error Code:" + rescode)
